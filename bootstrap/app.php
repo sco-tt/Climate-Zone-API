@@ -2,11 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    //
-}
+Dotenv::load(__DIR__.'/../');
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +19,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 
@@ -39,13 +35,13 @@ $app = new Laravel\Lumen\Application(
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    'Illuminate\Contracts\Debug\ExceptionHandler',
+    'App\Exceptions\Handler'
 );
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    'Illuminate\Contracts\Console\Kernel',
+    'App\Console\Kernel'
 );
 
 /*
@@ -60,11 +56,15 @@ $app->singleton(
 */
 
 // $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
+//     // 'Illuminate\Cookie\Middleware\EncryptCookies',
+//     // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
+//     // 'Illuminate\Session\Middleware\StartSession',
+//     // 'Illuminate\View\Middleware\ShareErrorsFromSession',
+//     // 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
 // ]);
 
 // $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
+
 // ]);
 
 /*
@@ -78,9 +78,7 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+// $app->register('App\Providers\AppServiceProvider');
 
 /*
 |--------------------------------------------------------------------------
@@ -93,8 +91,6 @@ $app->singleton(
 |
 */
 
-$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
-    require __DIR__.'/../routes/web.php';
-});
+require __DIR__.'/../app/Http/routes.php';
 
 return $app;
