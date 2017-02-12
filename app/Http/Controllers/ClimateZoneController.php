@@ -8,6 +8,28 @@ use DB;
 
 class ClimateZoneController extends Controller
 {
+    private function roundCoordinates($rawCoord)
+    {
+        $decimal = fmod($rawCoord, 1);
+
+        if ($decimal >= 0 && $decimal <= 0.5) {
+            $coord = $rawCoord + (0.25 - $decimal);
+        }
+
+        if ($decimal > 0.5 && $decimal < 1) {
+            $coord = $rawCoord + (0.75 - $decimal);
+        }
+
+        if ($decimal >= -0.5 && $decimal  < 0) {
+            $coord = $rawCoord + (-0.25 - $decimal);
+        }
+
+        if ($decimal > -1.00 && $decimal < -0.5) {
+            $coord = $rawCoord + (-0.75 - $decimal);
+        }
+
+        return $coord;
+    }
 
     public function climateZonesAll()
     {
@@ -18,17 +40,33 @@ class ClimateZoneController extends Controller
 
     public function climateZonesCode($code)
     {
-        $zones = DB::select('select * from locations where Cls = ?', [$code]);
+        $zones = DB::select('select lat, lon, koppen_geiger_zone from locations where koppen_geiger_zone = ?', [$code]);
         ;
 
         return response()->json($zones);
     }
 
-    public function climateZonesLat($lat, $lon)
+    public function climateZonesLat($latRaw, $lonRaw)
     {
-        $zones = DB::select('select * from locations where Lat = :lat and Lon = :lon', [$lat, $lon]);
-        ;
+        $lat = (float)$this->roundCoordinates($latRaw);
+        $lon = (float)$this->roundCoordinates($lonRaw);
 
-        return response()->json($zones);
+        $zones = DB::select(
+            'SELECT locations.lat, locations.lon, locations.koppen_geiger_zone, zone_descriptions.zone_description
+            FROM locations
+            LEFT JOIN zone_descriptions
+            ON zone_descriptions.zone_code = locations.koppen_geiger_zone
+            WHERE locations.lat=:lat and locations.lon=:lon',
+            [$lat, $lon]
+        );
+
+
+        $output['request_values'] =
+            array(
+                'lat' => (float)$latRaw,
+                'lon' => (float)$lonRaw
+            );
+        $output['return_values'] = $zones;
+        return response()->json($output);
     }
 }
