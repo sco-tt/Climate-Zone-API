@@ -43,7 +43,13 @@ class ClimateZoneController extends Controller
         $zones = DB::select('select lat, lon, koppen_geiger_zone from locations where koppen_geiger_zone = ?', [$code]);
         ;
 
-        return response()->json($zones);
+        if (!empty($zones)) {
+            $output['locations'] = $zones;
+        } else {
+            $output['error'] = 'Could not find a matching climate zone code';
+        }
+
+        return response()->json($output);
     }
 
     public function climateZonesLat($latRaw, $lonRaw)
@@ -60,13 +66,17 @@ class ClimateZoneController extends Controller
             [$lat, $lon]
         );
 
+        if (!empty($zones)) {
+            $output['request_values'] =
+                array(
+                    'lat' => (float)$latRaw,
+                    'lon' => (float)$lonRaw
+                );
+            $output['return_values'] = $zones;
+        } else {
+            $output['error'] = 'Could not find data for the supplied latitude/longitude pair. Please double check your values.';
+        }
 
-        $output['request_values'] =
-            array(
-                'lat' => (float)$latRaw,
-                'lon' => (float)$lonRaw
-            );
-        $output['return_values'] = $zones;
         return response()->json($output);
     }
 }
