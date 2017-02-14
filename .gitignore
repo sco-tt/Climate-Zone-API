@@ -4,3 +4,5 @@ Homestead.json
 Homestead.yaml
 .env
 *.cache
+app/Http/Controllers/.php_cs.cache
+.php_cs.cache
