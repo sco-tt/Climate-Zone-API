@@ -31,13 +31,6 @@ class ClimateZoneController extends Controller
         return $coord;
     }
 
-    public function climateZonesAll()
-    {
-        $zones = DB::select('select * from locations');
-
-        return response()->json($zones);
-    }
-
     public function climateZonesCode($code)
     {
         $zones = DB::select('select lat, lon, koppen_geiger_zone from locations where koppen_geiger_zone = ?', [$code]);

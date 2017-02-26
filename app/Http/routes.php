@@ -12,8 +12,6 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers'], function ($app) {
 
-    $app->get('all', 'ClimateZoneController@climateZonesAll');
-
     $app->get('location/{lat}/{lon}', 'ClimateZoneController@climateZonesLat');
 
     $app->get('kg-zone/{code}', 'ClimateZoneController@climateZonesCode');
