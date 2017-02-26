@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Zone API</title>
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>Climate Zone API</h1>
+      </div>
+    </div>
+<a href="https://github.com/sco-tt/Climate-Zone-API"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="callout">
+          <h3>Rest API for the Koeppen Geiger Climate Classification System</h3>
+          <p>This is a rest API for the world's climate zones according to the <a href="https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification">Köppen climate classification</a>. It is built with Laravel Lumen.</p>
+          <p>Climate data is from <a href="http://koeppen-geiger.vu-wien.ac.at/">this site</a> run by the Institute for Veterinary Public Health and the Provincial Government of Carinthia in Austria.</p>
+          <div class="row">
+            <div class="large-12 medium-12 columns">
+              <h4>Query By Location</h4>
+              <p>Search for a particular location by passing a latitude and longitude.</p>
+              <p><code>http://climateapi.scottpinkelman.com/api/v1/location/[latitude]/[logintitude]</code></p>
+              <p><strong><a href="http://climateapi.scottpinkelman.com/api/v1/location/40.8539645/14.1765625">Naples, Italy</a></strong></p>
+              <p><code>http://climateapi.scottpinkelman.com/api/v1/location/40.8539645/14.1765625</code></p>
+              <p>The latitude and longitude data is formatted to the nearest .25 and .75, so they API will return a climate zone based on the rounded values:</p>
+              <p class="code-wrap">               
+<code>{
+  "request_values": {
+    "lat": 40.8539645,
+    "lon": 14.1765625
+  },
+  "return_values": [
+    {
+      "lat": 40.75,
+      "lon": 14.25,
+      "koppen_geiger_zone": "Csa",
+      "zone_description": "Mediterranean, hot summer"
+    }
+  ]
+}</code>
+              </p> <!-- /p.code-wrap -->
+            </div>
+            <div class="large-12 medium-12 columns">
+              <h3>Query by Zone</h3>
+              <p>Search for a particular zone. See <a href="https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification#Meaning_of_symbols">Wikipedia for a detailed listing of climate zone codes</a>.</p>
+              <p><code>http://climateapi.scottpinkelman.com/api/v1/kg-zone/[zode-code]</code></p>
+              <p><strong><a href="http://climateapi.scottpinkelman.com/api/v1/kg-zone/Bsk">Mid-latitude steppe</a></strong></p>
+              <p><code>http://climateapi.scottpinkelman.com/api/v1/kg-zone/Bsk</code></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

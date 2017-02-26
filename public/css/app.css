@@ -1,0 +1,8 @@
+.code-wrap {
+  background-color: #e6e6e6;
+  border: 1px solid #cacaca;
+}
+.code-wrap code {
+  white-space: pre;
+  border: none;
+}
