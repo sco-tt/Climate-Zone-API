@@ -3,6 +3,9 @@
         Options -MultiViews
     </IfModule>
 
+    # Use static html as home page
+    DirectoryIndex index.html
+
     RewriteEngine On
 
     # Redirect Trailing Slashes If Not A Folder...
